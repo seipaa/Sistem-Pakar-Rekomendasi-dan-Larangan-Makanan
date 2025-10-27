@@ -53,7 +53,7 @@ cd ui
 npm install
 ```
 
-### Jalankan Aplikasi
+### Jalankan Website
 
 ```
 npm run dev
@@ -63,5 +63,5 @@ Kemudian buka di browser: [http://localhost:5173](http://localhost:5173)
 
 --- 
 
-## Menjalankan via browser
+## Jalankan website via browser
 https://sistempakar00.netlify.app/

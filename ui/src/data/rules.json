@@ -1,0 +1,183 @@
+{
+  "meta": {
+    "source_journal_name": "MALCOM Journal",
+    "source_paper_title": "Implementasi Algoritma Certainty Factor dan Forward Chaining untuk Rekomendasi dan Larangan Makanan",
+    "version": "1.0.0"
+  },
+  "cf_scales": {
+    "expert": [
+      { "label": "Tidak", "value": 0.0 },
+      { "label": "Tidak Tahu", "value": 0.2 },
+      { "label": "Mungkin", "value": 0.4 },
+      { "label": "Kemungkinan Benar", "value": 0.6 },
+      { "label": "Hampir Pasti", "value": 0.8 },
+      { "label": "Pasti", "value": 1.0 }
+    ],
+    "user_allowed_values": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+  },
+  "diseases": [
+    { "id": "P01", "name": "Hipertensi" },
+    { "id": "P02", "name": "Diabetes Melitus" },
+    { "id": "P03", "name": "Asma" },
+    { "id": "P04", "name": "PPOK" },
+    { "id": "P05", "name": "Penyakit Ginjal Kronik" }
+  ],
+  "symptoms": [
+    { "id": "G01", "name": "Berat pada tengkuk" },
+    { "id": "G02", "name": "Jantung berdebar-debar" },
+    { "id": "G03", "name": "Penglihatan terganggu" },
+    { "id": "G04", "name": "Pusing" },
+    { "id": "G05", "name": "Sakit kepala" },
+    { "id": "G06", "name": "BB turun tanpa sebab jelas" },
+    { "id": "G07", "name": "Kadar gula darah rendah/naik" },
+    { "id": "G08", "name": "Luka sulit sembuh" },
+    { "id": "G09", "name": "Rasa haus berlebihan" },
+    { "id": "G10", "name": "Frekuensi kencing meningkat" },
+    { "id": "G11", "name": "Rasa lapar berlebihan" },
+    { "id": "G12", "name": "Gatal-gatal" },
+    { "id": "G13", "name": "Sesak napas meningkat" },
+    { "id": "G14", "name": "Sesak napas kambuhan (periodik)" },
+    { "id": "G15", "name": "Batuk kadang terjadi" },
+    { "id": "G16", "name": "Mengi kadang terjadi" },
+    { "id": "G17", "name": "Batuk berdahak menetap" },
+    { "id": "G18", "name": "Lemas" },
+    { "id": "G19", "name": "Napas sesak & berbunyi" },
+    { "id": "G20", "name": "Penurunan berat badan" },
+    { "id": "G21", "name": "Sering infeksi paru" },
+    { "id": "G22", "name": "Mual & muntah" },
+    { "id": "G23", "name": "Kencing berdarah" },
+    { "id": "G24", "name": "Bengkak kaki/pergelangan" },
+    { "id": "G25", "name": "Gatal terus menerus" },
+    { "id": "G26", "name": "Sesak karena cairan di paru-paru" }
+  ],
+  "foods": [
+    { "id": "M01", "name": "Ubi Jalar" },
+    { "id": "M02", "name": "Bayam" },
+    { "id": "M03", "name": "Seledri" },
+    { "id": "M04", "name": "Labu Siam" },
+    { "id": "M05", "name": "Lobak" },
+    { "id": "M06", "name": "Anggur" },
+    { "id": "M07", "name": "Tomat" },
+    { "id": "M08", "name": "Terasi" },
+    { "id": "M09", "name": "Ikan Sarden" },
+    { "id": "M10", "name": "Telur Asin" },
+    { "id": "M11", "name": "Kulit Ayam" },
+    { "id": "M12", "name": "Alkohol" },
+    { "id": "M13", "name": "Kacang Hijau" },
+    { "id": "M14", "name": "Melon" },
+    { "id": "M15", "name": "Pepaya" },
+    { "id": "M16", "name": "Kentang" },
+    { "id": "M17", "name": "Jagung" },
+    { "id": "M18", "name": "Semangka" },
+    { "id": "M19", "name": "Apel" },
+    { "id": "M20", "name": "Jahe" },
+    { "id": "M21", "name": "Telur" },
+    { "id": "M22", "name": "Kol" },
+    { "id": "M23", "name": "Acar" },
+    { "id": "M24", "name": "Kerang" },
+    { "id": "M25", "name": "Timun" },
+    { "id": "M26", "name": "Beras Merah" },
+    { "id": "M27", "name": "Gandum" },
+    { "id": "M28", "name": "Udang" },
+    { "id": "M29", "name": "Minuman Berkarbonasi" },
+    { "id": "M30", "name": "Paprika Merah" },
+    { "id": "M31", "name": "Bawang Putih" },
+    { "id": "M32", "name": "Nanas" },
+    { "id": "M33", "name": "Alpukat" },
+    { "id": "M34", "name": "Pisang" },
+    { "id": "M35", "name": "Jeruk" }
+  ],
+
+  "diagnosis_rules": [
+    {
+      "id": "D-P01",
+      "then": "P01",
+      "evidence": [
+        { "symptom_id": "G01", "cf_expert": 0.4 },
+        { "symptom_id": "G02", "cf_expert": 0.2 },
+        { "symptom_id": "G03", "cf_expert": 0.4 },
+        { "symptom_id": "G04", "cf_expert": 0.4 },
+        { "symptom_id": "G05", "cf_expert": 0.4 }
+      ]
+    },
+    {
+      "id": "D-P02",
+      "then": "P02",
+      "evidence": [
+        { "symptom_id": "G06", "cf_expert": 0.6 },
+        { "symptom_id": "G07", "cf_expert": 0.8 },
+        { "symptom_id": "G08", "cf_expert": 0.8 },
+        { "symptom_id": "G09", "cf_expert": 0.6 },
+        { "symptom_id": "G10", "cf_expert": 0.6 },
+        { "symptom_id": "G11", "cf_expert": 0.4 },
+        { "symptom_id": "G12", "cf_expert": 0.4 }
+      ]
+    },
+    {
+      "id": "D-P03",
+      "then": "P03",
+      "evidence": [
+        { "symptom_id": "G14", "cf_expert": 0.8 },
+        { "symptom_id": "G15", "cf_expert": 0.4 },
+        { "symptom_id": "G16", "cf_expert": 0.6 },
+        { "symptom_id": "G19", "cf_expert": 0.8 },
+        { "symptom_id": "G18", "cf_expert": 0.2 }
+      ]
+    },
+    {
+      "id": "D-P04",
+      "then": "P04",
+      "evidence": [
+        { "symptom_id": "G13", "cf_expert": 0.6 },
+        { "symptom_id": "G17", "cf_expert": 0.8 },
+        { "symptom_id": "G19", "cf_expert": 0.6 },
+        { "symptom_id": "G21", "cf_expert": 0.6 },
+        { "symptom_id": "G20", "cf_expert": 0.4 }
+      ]
+    },
+    {
+      "id": "D-P05",
+      "then": "P05",
+      "evidence": [
+        { "symptom_id": "G22", "cf_expert": 0.4 },
+        { "symptom_id": "G23", "cf_expert": 0.8 },
+        { "symptom_id": "G24", "cf_expert": 0.8 },
+        { "symptom_id": "G25", "cf_expert": 0.6 },
+        { "symptom_id": "G26", "cf_expert": 0.6 }
+      ]
+    }
+  ],
+
+  "category_rules": [
+    { "id": "C-P02-LOWGI", "if": ["penyakit:P02"], "then": { "add_fact": ["kategori_diet:rendah_gula"] }, "cf_rule": 1.0 },
+    { "id": "C-P01-KALIUM", "if": ["penyakit:P01"], "then": { "add_fact": ["kategori_diet:hipertensi_kalium"] }, "cf_rule": 1.0 },
+    { "id": "C-P05-KIDNEYSAFE", "if": ["penyakit:P05"], "then": { "add_fact": ["kategori_diet:ginjal_aman"] }, "cf_rule": 1.0 }
+  ],
+
+  "food_rules": [
+    { "id": "D-LOWGI-PROHIBIT", "if": ["kategori_diet:rendah_gula"], "then": { "prohibit_food_ids": ["M15","M16","M17","M18","M34"] }, "cf_rule": 0.9 },
+    { "id": "D-HIPERTENSI-KALIUM-RECO", "if": ["kategori_diet:hipertensi_kalium"], "then": { "recommend_food_ids": ["M02","M03","M04","M05","M18","M19"] }, "cf_rule": 0.85 },
+    { "id": "D-GINJAL-AMAN-RECO", "if": ["kategori_diet:ginjal_aman"], "then": { "recommend_food_ids": ["M01","M06","M14","M18","M19","M32"] }, "cf_rule": 0.8 },
+
+    { "id": "F-P01-BAYAM", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M02"] }, "cf_rule": 0.85 },
+    { "id": "F-P01-SELEDRI", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M03"] }, "cf_rule": 0.8 },
+    { "id": "F-P01-LABUSIAM", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M04"] }, "cf_rule": 0.8 },
+    { "id": "F-P01-LOBAK", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M05"] }, "cf_rule": 0.75 },
+    { "id": "F-P01-APEL", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M19"] }, "cf_rule": 0.75 },
+    { "id": "F-P01-SEMANGKA", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M18"] }, "cf_rule": 0.7 },
+
+    { "id": "F-P02-PISANG_PROHIBIT", "if": ["penyakit:P02"], "then": { "prohibit_food_ids": ["M34"] }, "cf_rule": 0.8 },
+    { "id": "F-P02-PEPAYA_PROHIBIT", "if": ["penyakit:P02"], "then": { "prohibit_food_ids": ["M15"] }, "cf_rule": 0.75 },
+    { "id": "F-P02-KENTANG_PROHIBIT", "if": ["penyakit:P02"], "then": { "prohibit_food_ids": ["M16"] }, "cf_rule": 0.7 },
+    { "id": "F-P02-JAGUNG_PROHIBIT", "if": ["penyakit:P02"], "then": { "prohibit_food_ids": ["M17"] }, "cf_rule": 0.7 },
+    { "id": "F-P02-SEMANGKA_PROHIBIT", "if": ["penyakit:P02"], "then": { "prohibit_food_ids": ["M18"] }, "cf_rule": 0.7 },
+
+    { "id": "F-P03-RECO-GROUP", "if": ["penyakit:P03"], "then": { "recommend_food_ids": ["M02","M03","M04","M05","M07","M13","M25","M26","M35"] }, "cf_rule": 0.8 },
+    { "id": "F-P03-PROHIBIT-GROUP", "if": ["penyakit:P03"], "then": { "prohibit_food_ids": ["M06","M21","M22","M27","M28","M31"] }, "cf_rule": 0.8 },
+
+    { "id": "F-P04-RECO-GROUP", "if": ["penyakit:P04"], "then": { "recommend_food_ids": ["M02","M03","M04","M05","M07","M17","M25","M26","M29"] }, "cf_rule": 0.75 },
+
+    { "id": "F-P05-RECO-GROUP", "if": ["penyakit:P05"], "then": { "recommend_food_ids": ["M01","M02","M03","M04","M05","M06","M07","M13","M14","M18","M19","M20","M21","M25","M26","M27","M28","M32"] }, "cf_rule": 0.8 },
+    { "id": "F-P05-PROHIBIT-ALPUKAT", "if": ["penyakit:P05"], "then": { "prohibit_food_ids": ["M33"] }, "cf_rule": 0.8 }
+  ]
+}

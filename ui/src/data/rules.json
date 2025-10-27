@@ -2,7 +2,7 @@
   "meta": {
     "source_journal_name": "MALCOM Journal",
     "source_paper_title": "Implementasi Algoritma Certainty Factor dan Forward Chaining untuk Rekomendasi dan Larangan Makanan",
-    "version": "1.0.0"
+    "version": "1.0.1-balanced"
   },
   "cf_scales": {
     "expert": [
@@ -15,6 +15,7 @@
     ],
     "user_allowed_values": [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
   },
+
   "diseases": [
     { "id": "P01", "name": "Hipertensi" },
     { "id": "P02", "name": "Diabetes Melitus" },
@@ -22,6 +23,7 @@
     { "id": "P04", "name": "PPOK" },
     { "id": "P05", "name": "Penyakit Ginjal Kronik" }
   ],
+
   "symptoms": [
     { "id": "G01", "name": "Berat pada tengkuk" },
     { "id": "G02", "name": "Jantung berdebar-debar" },
@@ -50,6 +52,7 @@
     { "id": "G25", "name": "Gatal terus menerus" },
     { "id": "G26", "name": "Sesak karena cairan di paru-paru" }
   ],
+
   "foods": [
     { "id": "M01", "name": "Ubi Jalar" },
     { "id": "M02", "name": "Bayam" },
@@ -149,22 +152,23 @@
   ],
 
   "category_rules": [
-    { "id": "C-P02-LOWGI", "if": ["penyakit:P02"], "then": { "add_fact": ["kategori_diet:rendah_gula"] }, "cf_rule": 1.0 },
-    { "id": "C-P01-KALIUM", "if": ["penyakit:P01"], "then": { "add_fact": ["kategori_diet:hipertensi_kalium"] }, "cf_rule": 1.0 },
-    { "id": "C-P05-KIDNEYSAFE", "if": ["penyakit:P05"], "then": { "add_fact": ["kategori_diet:ginjal_aman"] }, "cf_rule": 1.0 }
+    { "id": "C-P02-LOWGI", "if": ["penyakit:P02"], "then": { "add_fact": ["kategori_diet:rendah_gula"] }, "cf_rule": 0.8 },
+    { "id": "C-P01-KALIUM", "if": ["penyakit:P01"], "then": { "add_fact": ["kategori_diet:hipertensi_kalium"] }, "cf_rule": 0.8 },
+    { "id": "C-P05-KIDNEYSAFE", "if": ["penyakit:P05"], "then": { "add_fact": ["kategori_diet:ginjal_aman"] }, "cf_rule": 0.75 }
   ],
 
   "food_rules": [
     { "id": "D-LOWGI-PROHIBIT", "if": ["kategori_diet:rendah_gula"], "then": { "prohibit_food_ids": ["M15","M16","M17","M18","M34"] }, "cf_rule": 0.9 },
-    { "id": "D-HIPERTENSI-KALIUM-RECO", "if": ["kategori_diet:hipertensi_kalium"], "then": { "recommend_food_ids": ["M02","M03","M04","M05","M18","M19"] }, "cf_rule": 0.85 },
-    { "id": "D-GINJAL-AMAN-RECO", "if": ["kategori_diet:ginjal_aman"], "then": { "recommend_food_ids": ["M01","M06","M14","M18","M19","M32"] }, "cf_rule": 0.8 },
+
+    { "id": "D-HIPERTENSI-KALIUM-RECO", "if": ["kategori_diet:hipertensi_kalium"], "then": { "recommend_food_ids": ["M02","M03","M04","M05","M18","M19"] }, "cf_rule": 0.8 },
+    { "id": "D-GINJAL-AMAN-RECO", "if": ["kategori_diet:ginjal_aman"], "then": { "recommend_food_ids": ["M01","M06","M14","M18","M19","M32"] }, "cf_rule": 0.75 },
+    { "id": "D-GINJAL-AMAN-PROHIBIT", "if": ["kategori_diet:ginjal_aman"], "then": { "prohibit_food_ids": ["M34"] }, "cf_rule": 0.8 },
 
     { "id": "F-P01-BAYAM", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M02"] }, "cf_rule": 0.85 },
     { "id": "F-P01-SELEDRI", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M03"] }, "cf_rule": 0.8 },
     { "id": "F-P01-LABUSIAM", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M04"] }, "cf_rule": 0.8 },
     { "id": "F-P01-LOBAK", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M05"] }, "cf_rule": 0.75 },
-    { "id": "F-P01-APEL", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M19"] }, "cf_rule": 0.75 },
-    { "id": "F-P01-SEMANGKA", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M18"] }, "cf_rule": 0.7 },
+    { "id": "F-P01-SEMANGKA", "if": ["penyakit:P01"], "then": { "recommend_food_ids": ["M18"] }, "cf_rule": 0.65 },
 
     { "id": "F-P02-PISANG_PROHIBIT", "if": ["penyakit:P02"], "then": { "prohibit_food_ids": ["M34"] }, "cf_rule": 0.8 },
     { "id": "F-P02-PEPAYA_PROHIBIT", "if": ["penyakit:P02"], "then": { "prohibit_food_ids": ["M15"] }, "cf_rule": 0.75 },
@@ -177,7 +181,7 @@
 
     { "id": "F-P04-RECO-GROUP", "if": ["penyakit:P04"], "then": { "recommend_food_ids": ["M02","M03","M04","M05","M07","M17","M25","M26","M29"] }, "cf_rule": 0.75 },
 
-    { "id": "F-P05-RECO-GROUP", "if": ["penyakit:P05"], "then": { "recommend_food_ids": ["M01","M02","M03","M04","M05","M06","M07","M13","M14","M18","M19","M20","M21","M25","M26","M27","M28","M32"] }, "cf_rule": 0.8 },
+    { "id": "F-P05-RECO-GROUP", "if": ["penyakit:P05"], "then": { "recommend_food_ids": ["M01","M02","M03","M04","M05","M06","M07","M13","M14","M18","M19","M20","M21","M25","M26","M27","M28","M32"] }, "cf_rule": 0.7 },
     { "id": "F-P05-PROHIBIT-ALPUKAT", "if": ["penyakit:P05"], "then": { "prohibit_food_ids": ["M33"] }, "cf_rule": 0.8 }
   ]
 }

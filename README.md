@@ -62,6 +62,3 @@ npm run dev
 Kemudian buka di browser: [http://localhost:5173](http://localhost:5173)
 
 --- 
-
-## Jalankan website via browser
-https://sistempakar00.netlify.app/
